@@ -1,0 +1,389 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    font-family : arial, sans-serif;
+}
+
+body{
+    background-color: #262633;
+    background-size: cover;
+    color: white;
+}
+
+/* Top bar */
+.top-bar{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #00c7b6;
+}
+
+.div-logo{ 
+    grid-area: 1 / 1 / 2 / 2;
+    height: 100%;
+    width: 14em;
+}
+
+.div-logo > img{ 
+    margin: 0.5em;
+    height: 3em;
+    margin-left: 1.5em;
+}
+
+.div-logo > header{
+    float: right;
+    padding-top: 1em;
+} 
+
+.navigation-bar{
+    grid-area: 1 / 2 / 2 / 3; 
+    height: 4.25em;
+}
+
+/* Dropdown Logo */
+.navigation-bar > div > button > img{
+    height: 2em;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+.dropdown {
+    position: relative;
+    float: right;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #191b21;
+    min-width: 160px;
+    z-index: 1;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    border-bottom: 2px solid #00c7b6;
+    transition: border-bottom 0.4s ease-out ;
+    transition-delay: 0.1s;
+}
+
+/* Making hover on last button with radius */
+.dropdown-content #signOutBtn:hover{
+    border-radius: 0.5em;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.login-container > input[type=text], input[type=email], input[type=password] {
+    width: 100%;
+    display: inline-block;
+    padding: 12px 20px;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    outline: none;
+}
+
+.register-container > input[type=text], input[type=email], input[type=password], input[type=file]{
+    width: 100%;
+    display: inline-block;
+    padding: 12px 20px;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    outline: none;
+}
+
+#loginForm > form > h2{
+    text-align: center;
+    padding: 0.5em;
+}
+
+#registerForm > form > h2{
+    text-align: center;
+    padding-top: 0.5em;
+}
+  
+/* Set a style for all buttons */
+.login-btn, .register-btn, .login-nav, .register-nav {
+    background-color: #00c7b6;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-btn:hover, .login-nav:hover, .register-nav:hover, .register-btn:hover {
+    opacity: 0.8;
+}
+
+/* Center the image and position the close button */
+.login-container {
+    padding: 16px;
+}
+
+.register-container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+}
+
+/* Modal Content/Box */
+.modal-content{
+    margin-left: 17.5em;
+    margin-top: 7.5em;
+    background-color: #191b21;
+    margin-bottom: 7.5em;
+    width: 60%;
+}
+
+/* Animation when opening form */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Radio Buttons */
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 2em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    cursor: pointer;
+    font-size: 1em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+  /* Hide the browser's default radio button */
+.radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkmark {
+    background-color: #00c7b6;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+    top: 0.25em;
+    left: 0.25em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+/* Radio Buttons End */
+
+.container{
+    display: block;
+}
+
+#homePage{
+    display: none;
+    width: 100vw;
+    grid-template-columns: 0.25fr 1fr 0.25fr;
+    grid-template-rows: 0.25fr 1.75fr 0.25fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.view-profile-div{ 
+    grid-area: 1 / 2 / 2 / 4;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.view-profile-div a{
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    height: 85%;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.view-profile-div a:hover {
+    cursor: pointer;
+}
+
+#viewProfileBtn > img{
+    height: 2em;
+    margin-top: 0.75em;
+}
+
+.online-users-div{ 
+    grid-area: 1 / 1 / 4 / 2;
+    background-color: #1d1d24;
+    width: 100%;
+}
+
+/* Online users title */
+.online-users-div > h2{
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+/* Online users */
+.online-users-div > li{
+    list-style-type: none;
+    margin-top: 0.5em;
+    margin-left: 1em;
+    font-size: 1.2em;
+}
+
+.div6{ 
+    grid-area: 2 / 2 / 3 / 4;
+    height: 28.65em;
+    width: 100%;
+    overflow: auto;
+}
+
+/* Messages */
+.div6 > li{
+    /* Removing bullet points */
+    list-style-type: none;
+    font-size: 1.2em;
+    margin: 0.5em;
+}
+
+/* Message Username */
+.div6 > li> strong{
+    color: #00c7b6;
+}
+
+/* Remove Message Button */
+.div6 > li > button{
+    margin-left: 1em;
+    background-color: #b51e0d;
+    border: none;
+    cursor: pointer;
+    float: right
+}
+
+/* Message Removed */
+.div6 > li > i{
+    font-size: 0.8em;
+}
+
+.message-form{  
+    background-color: rgba(0, 0, 0, 0.5);
+    grid-area: 3 / 2 / 4 / 4;
+}
+
+.div7 > input[type=text] {
+    width: 85%;
+    float: left;
+    padding: 12px 20px;
+    margin-top: 0.75em;
+    margin-left: 1.5em;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid #00c7b6;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    outline: none;
+}
+
+.div7 > button{ 
+    margin-top: 0.75em;
+    margin-left: 1.5em;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.div7 > button > img{ 
+    height: 2.75em;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+    .div7 > input[type=text] {
+        width: 75%;
+    }
+  }

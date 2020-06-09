@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>LavaVibe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css"> 
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/client.js"></script>
+</head>
+
+<body>
+    <div class="top-bar" id="topBar">
+        <div class="div-logo" id="divLogo"> 
+            <img src="assets/images/logo.png" alt="Logo">
+            <header>
+                <h1>LavaVibe</h1>
+            </header>
+        </div>
+
+        <div class="navigation-bar" id="navigationBar">
+            <div class="dropdown">
+                <button class="dropbtn"><img src="assets/images/menu-logo.png" alt="Menu Logo"></button>		
+                <div class="dropdown-content">
+                    <a class="nav" id="signOutBtn" onclick="signOut()">Sign Out</a>
+                </div>	
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="container"> 
+            <div class="page" id=homePage>
+                <div class="online-users-div" id="onlineUsersDiv">
+                </div>
+                    
+                <div class="view-profile-div" id="viewProfileDiv"> 
+                </div>
+    
+                <div class="div6" id="div6">
+                </div>
+
+                <form class="message-form" onsubmit="return sendMessage();">
+                    <div class="div7" id="div7"> 
+                        <input type="text" id="messagebox" name="messagebox" placeholder="Write a message">
+                        <button type="submit" value="Send"><img src="assets/images/send-message.png" alt="Send Message Logo"></button>               
+                    </div>
+                </form>
+            </div>
+
+            <div class="page" id=loginPage>
+                <div id="loginForm" class="modal"> 
+                    <form class="modal-content animate">
+                        <h2>Login</h2>
+                        <div class="login-container">
+                            <label for="loginUsernameField"><b>Username</b></label>
+                            <input type="text" id="loginUsernameField" placeholder="Enter Username" name="loginUsername" required>
+                    
+                            <label for="loginPasswordField"><b>Password</b></label>
+                            <input type="password" id="loginPasswordField" placeholder="Enter Password" name="loginPassword" required>
+
+                            <p id="loginResult"></p>
+                            
+                            <button class="register-nav" id="loginNav" type="button" onclick="displayRegister()">Create an Account</button>
+                            <button class="login-btn" id="loginBtn" type="submit">Log In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+            <div class="page" id=registerPage>
+                <div id="registerForm" class="modal"> 
+                    <form class="modal-content animate" action="/register" method="POST">
+                        <h2>Register</h2>
+                        <div class="register-container">
+                            <label for="registerUsernameField"><b>Username</b></label>
+                            <input type="text" id="registerUsernameField" placeholder="Enter Username" name="username" required>
+            
+                            <label for="registerFirstNameField"><b>First Name</b></label>
+                            <input type="text" id="registerFirstNameField" placeholder="Enter First Name" name="firstName" required>
+            
+                            <label for="registerLastNameField"><b>Last Name</b></label>
+                            <input type="text" id="registerLastNameField" placeholder="Enter Last Name" name="lastName" required>
+            
+                            <label for="registerAgeField"><b>Age</b></label>
+                            <input type="text" id="registerAgeField" placeholder="Enter Age" name="age" required>
+            
+                            <label><b>Gender</b></label><br>
+                            <label class="radio-container">Male
+                                <input type="radio" checked="checked" name="gender" value="male">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-container">Female
+                                <input type="radio" name="gender" value="female">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-container">Other
+                                <input type="radio" name="gender" value="other">
+                                <span class="checkmark"></span>
+                            </label>
+                            
+                            <label for="registerEmailField"><b>Email</b></label>
+                            <input type="email" id="registerEmailField" placeholder="Enter Email" name="email" required>
+                    
+                            <label for="registerPasswordField"><b>Password</b></label>
+                            <input type="password" id="registerPasswordField" placeholder="Enter Password" name="password" required>
+                            
+                            <button class="login-nav" id="registerNav" onclick="displayLogin()" type="button">Log Into Existing Account</button>
+                            <button class="register-btn" id="registerBtn" type="submit">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>        
+        </div>
+
+        <script>
+            //JQuery
+            $(function(){
+                var socket = io.connect();
+                
+                var $topBar = $('#topBar');
+                var $loginForm = $('#loginForm');
+                var $loginPage = $('#loginPage');
+                var $loginResult = $('#loginResult');
+                var $registerForm = $('#registerForm');
+                var $registerPage = $('#registerPage');
+                var $onlineUsersDiv = $('#onlineUsersDiv');
+                var $username = $('#loginUsernameField');
+                var $password = $('#loginPasswordField');
+                var $homePage = $('#homePage');
+
+                $loginForm.submit(function(e){
+                    //Preventing button from submitting form
+                    e.preventDefault();
+                    socket.emit('new_user', {username: $username.val(), password: $password.val()});
+                });
+
+                socket.on('login_status', function(data){
+                    //Displaying incorrect details message
+                    $loginResult.html(data);  
+                    $loginResult.css("color", "#ff0000");                 
+
+                    if(data==="Login Successful"){
+                        //Displaying chat
+                        $registerForm.hide();
+                        $registerPage.hide();
+                        $loginForm.hide();
+                        $loginPage.hide();
+                        $topBar.css("display", "grid")
+                        $homePage.css("display", "grid")
+                    }else{
+                        //Clearing fields if login fails
+                        $username.val('');
+                        $password.val('');
+                    }
+                });
+
+                //Getting users and displaying as online
+                socket.on('get_users', function(data){
+                    let html = '';
+                    let users = data;
+
+                    for (i=0; i< users.length; i++){
+                        html+= '<li>' + users[i] + '</li>';
+                    }
+                    //Displaying users as online
+                    $onlineUsersDiv.html('<h2>Online Users</h2>' + html);
+                });
+            });
+        </script>
+        <script src="js/chat.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", onDOMLoaded);
+        </script>
+</body>
+</html>
